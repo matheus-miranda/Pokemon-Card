@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon/app/domain/pokemon.dart';
+import 'package:pokemon/app/pages/all_cards_page.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -11,58 +11,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Pokemon> pokemonList = [
-    Pokemon(
-        id: 'xy7-10',
-        name: 'Vespiquen',
-        imageUrl: 'https://images.pokemontcg.io/xy7/10.png',
-        imageUrlHiRes: 'https://images.pokemontcg.io/xy7/10_hires.png',
-        types: ['Grass']),
-    Pokemon(
-        id: 'dp6-90',
-        name: 'Cubone',
-        imageUrl: 'https://images.pokemontcg.io/dp6/90.png',
-        imageUrlHiRes: 'https://images.pokemontcg.io/dp6/90_hires.png',
-        types: ['Fighting']),
-    Pokemon(
-        id: 'dp6-90',
-        name: 'Cubone',
-        imageUrl: 'https://images.pokemontcg.io/dp6/90.png',
-        imageUrlHiRes: 'https://images.pokemontcg.io/dp6/90_hires.png',
-        types: ['Fighting']),
-    Pokemon(
-        id: 'xy7-10',
-        name: 'Vespiquen',
-        imageUrl: 'https://images.pokemontcg.io/xy7/10.png',
-        imageUrlHiRes: 'https://images.pokemontcg.io/xy7/10_hires.png',
-        types: ['Grass'])
+  int _currentIndex = 0;
+  List<Widget> pages = [
+    const AllCardsPage(),
+    Container(),
+    Container(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      body: GridView.count(
-        childAspectRatio: 0.72,
-        crossAxisCount: 2,
-        children: List.generate(pokemonList.length, (index) {
-          var pokemon = pokemonList[index];
-          return GestureDetector(
-            onTap: () => openDetailScreen(pokemon),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Hero(
-                tag: pokemon.id,
-                child: Image.network(pokemon.imageUrl),
-              ),
-            ),
-          );
-        }),
-      ),
+      body: pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+          onTap: (index) => changePage(index),
+          items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.all_inclusive), label: 'Cards'),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Obtained'),
+      ]),
     );
   }
 
-  openDetailScreen(Pokemon pokemon) {
-    Navigator.of(context).pushNamed('/detail', arguments: {'pokemon': pokemon});
+  changePage(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }
