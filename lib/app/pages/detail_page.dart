@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon/app/app_config.dart';
 import 'package:pokemon/app/domain/pokemon.dart';
+import 'package:pokemon/app/repository/pokemon_repo_interface.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
@@ -10,17 +12,28 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   Map routeData = {};
+  late Pokemon pokemon;
   bool showExpandedCard = false;
+  late PokemonRepoInterface repository;
 
   @override
   Widget build(BuildContext context) {
     routeData = ModalRoute.of(context)?.settings.arguments as Map;
-    Pokemon pokemon = routeData['pokemon'];
+    pokemon = routeData['pokemon'];
+    repository = AppConfig.of(context)!.pokemonRepo;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(pokemon.name),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () => addToFavoritesList(pokemon),
+              icon: const Icon(Icons.favorite)),
+          IconButton(
+              onPressed: () => addToObtainedList(pokemon),
+              icon: const Icon(Icons.person_add))
+        ],
       ),
       body: Center(
         child: Column(
@@ -57,5 +70,19 @@ class _DetailPageState extends State<DetailPage> {
     setState(() {
       showExpandedCard = !showExpandedCard;
     });
+  }
+
+  addToFavoritesList(Pokemon pokemon) {
+    repository.addToFavoritesList(pokemon);
+    ScaffoldMessenger.of(context).showSnackBar(
+        (const SnackBar(content: Text('Added to Favorites List'),
+    )));
+  }
+
+  addToObtainedList(Pokemon pokemon) {
+    repository.addToObtainedList(pokemon);
+    ScaffoldMessenger.of(context).showSnackBar(
+        (const SnackBar(content: Text('Added to Obtained List'),
+    )));
   }
 }

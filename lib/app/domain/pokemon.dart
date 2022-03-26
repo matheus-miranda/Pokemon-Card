@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Pokemon {
   final String id;
   final String name;
@@ -12,4 +14,19 @@ class Pokemon {
     required this.imageUrlHiRes,
     required this.types
   });
+
+  String toJson() {
+    Map<String, dynamic> json = _fromMapJson();
+    return jsonEncode(json);
+  }
+
+  Map<String, dynamic> _fromMapJson() {
+    return {
+      'id': id,
+      'name': name,
+      'imageUrl': imageUrl,
+      'imageUrlHiRes': imageUrlHiRes,
+      'types': types
+    };
+  }
 }
