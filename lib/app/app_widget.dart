@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon/app/pages/home_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -7,11 +8,14 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pokemon Card',
-      //debugShowCheckedModeBanner: false,
+      title: 'Pokemon Cards',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      routes: {
+        '/': (context) => const HomePage(title: 'Pokemon Cards')
+      },
     );
   }
 }
