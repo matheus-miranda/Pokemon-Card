@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pokemon/app/domain/pokemon.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
-
   final String title;
+
+  const HomePage({Key? key, required this.title}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -47,15 +47,22 @@ class _HomePageState extends State<HomePage> {
         crossAxisCount: 2,
         children: List.generate(pokemonList.length, (index) {
           var pokemon = pokemonList[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Hero(
-              tag: pokemon.id,
-              child: Image.network(pokemon.imageUrl),
+          return GestureDetector(
+            onTap: () => openDetailScreen(pokemon),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Hero(
+                tag: pokemon.id,
+                child: Image.network(pokemon.imageUrl),
+              ),
             ),
           );
         }),
       ),
     );
+  }
+
+  openDetailScreen(Pokemon pokemon) {
+    Navigator.of(context).pushNamed('/detail', arguments: {'pokemon': pokemon});
   }
 }

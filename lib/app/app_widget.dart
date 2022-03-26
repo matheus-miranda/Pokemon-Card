@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon/app/pages/detail_page.dart';
 import 'package:pokemon/app/pages/home_page.dart';
 
 class AppWidget extends StatelessWidget {
@@ -13,8 +14,10 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      initialRoute: '/',
       routes: {
-        '/': (context) => const HomePage(title: 'Pokemon Cards')
+        '/': (context) => const HomePage(title: 'Pokemon Cards'),
+        '/detail': (context) => const DetailPage()
       },
     );
   }
