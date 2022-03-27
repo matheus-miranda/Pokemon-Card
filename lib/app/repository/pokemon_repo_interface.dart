@@ -5,4 +5,5 @@ abstract class PokemonRepoInterface {
   void addToObtainedList(Pokemon pokemon);
   Future<List<Pokemon>> getObtainedPokemon();
   Future<List<Pokemon>> getFavoritesPokemon();
+  Future<List<Pokemon>> getAllPokemon();
 }

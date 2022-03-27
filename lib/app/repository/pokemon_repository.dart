@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:pokemon/app/domain/pokemon.dart';
 import 'package:pokemon/app/repository/pokemon_repo_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,12 +14,12 @@ class PokemonRepository implements PokemonRepoInterface {
     var shared = await SharedPreferences.getInstance();
     var pokemonList = shared.getStringList(obtainedKey);
 
-      if (pokemonList == null || pokemonList.isEmpty) {
-        shared.setStringList(obtainedKey, [pokemon.toJson()]);
-      } else {
-        pokemonList.add(pokemon.toJson());
-        shared.setStringList(obtainedKey, pokemonList);
-      }
+    if (pokemonList == null || pokemonList.isEmpty) {
+      shared.setStringList(obtainedKey, [pokemon.toJson()]);
+    } else {
+      pokemonList.add(pokemon.toJson());
+      shared.setStringList(obtainedKey, pokemonList);
+    }
   }
 
   @override
@@ -54,5 +57,23 @@ class PokemonRepository implements PokemonRepoInterface {
     }
 
     return pokemonList.map<Pokemon>((json) => Pokemon.fromJson(json)).toList();
+  }
+
+  @override
+  Future<List<Pokemon>> getAllPokemon() async {
+    var url = Uri.parse('https://api.pokemontcg.io/v1/cards/');
+    final response = await http.get(url);
+    List<Pokemon> pokemonList = [];
+
+    if (response.statusCode <= 300) {
+      Map<String, dynamic> responseJson = json.decode(response.body);
+      responseJson['cards'].forEach((pokemon) {
+        pokemonList.add(Pokemon.fromMapJson(pokemon));
+      });
+
+      return pokemonList;
+    }
+
+    return []; // return empty list if request failed
   }
 }
