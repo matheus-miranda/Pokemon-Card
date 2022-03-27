@@ -5,7 +5,7 @@ class Pokemon {
   final String name;
   final String imageUrl;
   final String imageUrlHiRes;
-  final List<dynamic> types;
+  final List<String> types;
 
   Pokemon({
     required this.id,
@@ -32,11 +32,16 @@ class Pokemon {
 
   static Pokemon fromJson(String json) {
     Map<String, dynamic> map = jsonDecode(json);
+    return fromMapJson(map);
+  }
+
+  static Pokemon fromMapJson(Map<String, dynamic> map) {
     return Pokemon(
         id: map['id'],
         name: map['name'],
         imageUrl: map['imageUrl'],
         imageUrlHiRes: map['imageUrlHiRes'],
-        types: map['types']);
+        types: map.containsKey('types') ? map['types'].cast<String>() : ['']
+    );
   }
 }
