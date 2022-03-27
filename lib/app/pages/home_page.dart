@@ -23,9 +23,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+          currentIndex: _currentIndex,
           onTap: (index) => changePage(index),
           items: const [
         BottomNavigationBarItem(icon: Icon(Icons.all_inclusive), label: 'Cards'),
