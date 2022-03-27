@@ -31,4 +31,16 @@ class PokemonRepository implements PokemonRepoInterface {
       shared.setStringList(favoritesKey, pokemonList);
     }
   }
+
+  @override
+  Future<List<Pokemon>> getObtainedPokemon() async {
+    var shared = await SharedPreferences.getInstance();
+    var pokemonList = shared.getStringList(obtainedKey);
+
+    if (pokemonList == null) {
+      return [];
+    }
+
+    return pokemonList.map<Pokemon>((json) => Pokemon.fromJson(json)).toList();
+  }
 }

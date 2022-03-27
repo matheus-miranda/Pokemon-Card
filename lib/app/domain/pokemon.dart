@@ -29,4 +29,14 @@ class Pokemon {
       'types': types
     };
   }
+
+  static Pokemon fromJson(String json) {
+    Map<String, dynamic> map = jsonDecode(json);
+    return Pokemon(
+        id: map['id'],
+        name: map['name'],
+        imageUrl: map['imageUrl'],
+        imageUrlHiRes: map['imageUrlHiRes'],
+        types: map['types']);
+  }
 }
