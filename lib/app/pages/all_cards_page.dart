@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon/app/app_config.dart';
 import 'package:pokemon/app/domain/pokemon.dart';
+import 'package:pokemon/app/repository/pokemon_repo_interface.dart';
 
 class AllCardsPage extends StatefulWidget {
 
@@ -10,35 +12,14 @@ class AllCardsPage extends StatefulWidget {
 }
 
 class _AllCardsPageState extends State<AllCardsPage> {
-  List<Pokemon> pokemonList = [
-    Pokemon(
-        id: 'xy7-10',
-        name: 'Vespiquen',
-        imageUrl: 'https://images.pokemontcg.io/xy7/10.png',
-        imageUrlHiRes: 'https://images.pokemontcg.io/xy7/10_hires.png',
-        types: ['Grass']),
-    Pokemon(
-        id: 'dp6-90',
-        name: 'Cubone',
-        imageUrl: 'https://images.pokemontcg.io/dp6/90.png',
-        imageUrlHiRes: 'https://images.pokemontcg.io/dp6/90_hires.png',
-        types: ['Fighting']),
-    Pokemon(
-        id: 'dp6-90',
-        name: 'Cubone',
-        imageUrl: 'https://images.pokemontcg.io/dp6/90.png',
-        imageUrlHiRes: 'https://images.pokemontcg.io/dp6/90_hires.png',
-        types: ['Fighting']),
-    Pokemon(
-        id: 'xy7-10',
-        name: 'Vespiquen',
-        imageUrl: 'https://images.pokemontcg.io/xy7/10.png',
-        imageUrlHiRes: 'https://images.pokemontcg.io/xy7/10_hires.png',
-        types: ['Grass'])
-  ];
+  List<Pokemon> pokemonList = [];
+  late PokemonRepoInterface repository;
 
   @override
   Widget build(BuildContext context) {
+    repository = AppConfig.of(context)!.pokemonRepo;
+    loadAllPokemon();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Pokemon Cards')),
       body: GridView.count(
@@ -59,6 +40,13 @@ class _AllCardsPageState extends State<AllCardsPage> {
         }),
       ),
     );
+  }
+
+  void loadAllPokemon() async {
+    var allPokemon = await repository.getAllPokemon();
+    setState(() {
+      pokemonList = allPokemon;
+    });
   }
 
   openDetailScreen(Pokemon pokemon) {
