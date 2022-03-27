@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon/app/pages/all_cards_page.dart';
+import 'package:pokemon/app/pages/obtained_cards_page.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> pages = [
     const AllCardsPage(),
     Container(),
-    Container(),
+    const ObtainedCardsPage(),
   ];
 
   @override
