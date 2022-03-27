@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon/app/pages/all_cards_page.dart';
+import 'package:pokemon/app/pages/favorite_cards_page.dart';
 import 'package:pokemon/app/pages/obtained_cards_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   List<Widget> pages = [
     const AllCardsPage(),
-    Container(),
+    const FavoriteCardsPage(),
     const ObtainedCardsPage(),
   ];
 
