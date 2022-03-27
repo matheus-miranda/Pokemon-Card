@@ -12,7 +12,7 @@ class AppWidget extends StatelessWidget {
       title: 'Pokemon Cards',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       initialRoute: '/',
       routes: {
